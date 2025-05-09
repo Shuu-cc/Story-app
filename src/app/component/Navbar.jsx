@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <div className="flex p-10 justify-between">
       <h1>DragonMap</h1>
-      <Link href={"/login"} className="btn btn-primary">Login</Link>
+      <Link href={"/auth/register"} className="btn btn-primary">register</Link>
     </div>
   );
 };

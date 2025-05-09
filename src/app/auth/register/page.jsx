@@ -18,13 +18,16 @@ const RegsterPages = () => {
     let username = e.target.name.value;
     let password = e.target.password.value;
 
-    if(password.length < 8){
+    if (password.length < 8) {
       setError("Password must be at least 8 characters");
     }
 
     try {
-      const res = await fetch(`https://story-api.dicoding.dev/v1/register`, {
+      const res = await fetch("https://story-api.dicoding.dev/v1/register", {
         method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           name: username,
           email: email,
@@ -32,11 +35,10 @@ const RegsterPages = () => {
         }),
       });
 
-      if (!res.ok) {
-        setIsError(true);
-      } else {
-        e.target.reset();
+      if (res.status === 201) {
         push("/");
+      } else {
+        setError(res.message);
       }
     } catch (error) {
       console.log(error);
@@ -47,18 +49,11 @@ const RegsterPages = () => {
     <div className="flex justify-center items-center w-full">
       {isError && <p className="text-red-500">{error}</p>}
       <form className="flex flex-col p-3 w-1/4 gap-3" onSubmit={handleRegister}>
-        <input type="email" required placeholder="email" name="email" />
         <input type="text" required placeholder="username" name="name" />
-        <input
-          type="password"
-          required
-          placeholder="password"
-          name="password"
-        />
-        <button
-          type="submit"
-          className="p-2 rounded-2xl text-white bg-purple-400"
-        >
+        <input type="email" required placeholder="email" name="email" />
+
+        <input type="password" required placeholder="password" name="password" />
+        <button type="submit" className="p-2 rounded-2xl text-white bg-purple-400 pointer-coarse:">
           Register
         </button>
       </form>
