@@ -1,14 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const Navbar = () => {
   const name = localStorage.getItem("name");
+  const { push } = useRouter();
 
   const handleLogout = (e) => {
     e.preventDefault();
     localStorage.clear();
+    push("/auth/login");
   };
 
   return (
