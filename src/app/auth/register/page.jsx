@@ -11,6 +11,14 @@ const RegsterPages = () => {
   const { push } = useRouter();
   const [error, setError] = useState("");
 
+  const handleError = (error) => {
+    if (error.length < 8 || error === "") {
+      setError("Password must be at least 8 characters");
+    }else{
+      setError("");
+    }
+  };
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -36,7 +44,7 @@ const RegsterPages = () => {
       });
 
       if (res.status === 201) {
-        push("/");
+        push("/auth/login");
       } else {
         setError(res.message);
       }
@@ -46,14 +54,16 @@ const RegsterPages = () => {
   };
 
   return (
-    <div className="flex justify-center items-center w-full">
-      {isError && <p className="text-red-500">{error}</p>}
+    <div className="flex justify-center items-center w-full h-screen flex-col border-2">
+      {/* {isError && <p className="text-red-500">{error}</p>} */}
+      <h1 className="text-3xl">Daftarkan Akunmu</h1>
+      <p className="text-red-500">{error}</p>
       <form className="flex flex-col p-3 w-1/4 gap-3" onSubmit={handleRegister}>
-        <input type="text" required placeholder="username" name="name" />
-        <input type="email" required placeholder="email" name="email" />
+        <input type="text" className="p-3 border rounded-2xl" required placeholder="username" name="name" />
+        <input type="email" className="p-3 border rounded-2xl" required placeholder="email" name="email" />
 
-        <input type="password" required placeholder="password" name="password" />
-        <button type="submit" className="p-2 rounded-2xl text-white bg-purple-400 pointer-coarse:">
+        <input type="password" onChange={(e) => handleError(e.target.value)} className="p-3 border rounded-2xl" required placeholder="password" name="password" />
+        <button type="submit" className="p-3 rounded-2xl text-white bg-purple-400 ">
           Register
         </button>
       </form>
