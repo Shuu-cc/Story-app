@@ -3,6 +3,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
+
+const MapView = dynamic(() => import("./component/MapView"), { ssr: false });
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -44,6 +47,7 @@ export default function Home() {
                 <p>{item.description}</p>
               </div>
               <img src={item.photoUrl} className="w-full h-40" alt="" />
+               {item.lat && item.lon && <MapView lat={item.lat} lon={item.lon} name={item.name} />}
             </div>
           ))
         : null}
