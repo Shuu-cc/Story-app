@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-const RegsterPages = () => {
+const RegisterPages = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const { push } = useRouter();
@@ -71,4 +71,4 @@ const RegsterPages = () => {
   );
 };
 
-export default RegsterPages;
+export default RegisterPages;

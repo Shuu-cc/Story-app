@@ -8,7 +8,6 @@ const Navbar = () => {
   const { push } = useRouter();
 
   useEffect(() => {
-    // localStorage hanya tersedia di client (browser)
     const storedName = localStorage.getItem("name");
     if (storedName) setName(storedName);
   }, []);

@@ -46,16 +46,65 @@ const LoginPages = () => {
   };
 
   return (
-    <div className="flex justify-center items-center gap-3  w-full h-screen flex-col">
-      <h1 className="text-3xl">Masuk dengan Akun</h1>
-      <form className="flex flex-col p-3 w-full md:w-1/4 gap-3" onSubmit={handlelogin}>
-        <input type="email" className="p-3 border rounded-2xl" required placeholder="email" name="email" />
-        <input type="password" className="p-3 border rounded-2xl" required placeholder="password" name="password" />
-        <button type="submit" className="p-2 rounded-2xl text-white bg-purple-400 pointer-coarse:">
-          Login
-        </button>
-      </form>
-    </div>
+     <>
+      <a href="#main" className="sr-only focus:not-sr-only p-2 bg-yellow-300 text-black">
+        Skip to main content
+      </a>
+
+      <main id="main" className="flex justify-center items-center gap-3 w-full h-screen flex-col" role="main">
+        <h1 className="text-3xl" aria-label="Judul halaman login">Masuk dengan Akun</h1>
+
+        <form
+          className="flex flex-col p-3 w-full md:w-1/4 gap-3"
+          onSubmit={handlelogin}
+          aria-label="Form login akun"
+        >
+          <div>
+            <label htmlFor="email" className="block font-medium">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              className="p-3 border rounded-2xl w-full"
+              required
+              placeholder="email@contoh.com"
+              aria-required="true"
+              autoComplete="email"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="password" className="block font-medium">Password</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              className="p-3 border rounded-2xl w-full"
+              required
+              placeholder="••••••••"
+              aria-required="true"
+              autoComplete="current-password"
+            />
+          </div>
+
+          {error && (
+            <p className="text-red-500 text-sm" role="alert" aria-live="assertive">
+              {error}
+            </p>
+          )}
+
+          <button
+            type="submit"
+            className="p-2 rounded-2xl text-white bg-purple-400"
+            disabled={isLoading}
+            aria-busy={isLoading}
+            aria-label="Tombol login"
+          >
+            {isLoading ? "Memproses..." : "Login"}
+          </button>
+        </form>
+      </main>
+    </>
   );
 };
 
