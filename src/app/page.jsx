@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 
 const MapView = dynamic(() => import("./component/MapView"), { ssr: false });
 
@@ -38,19 +39,60 @@ export default function Home() {
   console.log(data);
 
   return (
-    <div className="flex flex-col p-3 justify-center items-center gap-3">
-      {isToken
-        ? data.map((item, index) => (
-            <div class="card bg-green-400 w-2/4 bg-base-100 card-xs text-white shadow-sm">
-              <div class="card-body ">
-                <h2 class="card-title font-bold">{item.name}</h2>
+     <>
+      <a href="#main" className="sr-only focus:not-sr-only p-2 bg-yellow-300 text-black">
+        Skip to main content
+      </a>
+
+      <header className="bg-green-700 text-white p-4 w-full" role="banner">
+        <h1 className="text-xl font-bold">Story App</h1>
+      </header>
+
+      <main id="main" className="flex flex-col items-center p-3 gap-3" role="main">
+        <div className="flex justify-between items-center w-full max-w-2xl">
+          <Link
+            href="/tambah"
+            className="px-4 py-2 bg-green-500 text-white rounded focus:outline focus:ring-2"
+            aria-label="Tambahkan cerita baru"
+          >
+            ➕ Tambah Story
+          </Link>
+          <span className="text-sm text-gray-700">
+            Mode: <b>{isToken ? "Login" : "Guest"}</b>
+          </span>
+        </div>
+
+        {data.length > 0 ? (
+          data.map((item, index) => (
+            <article
+              key={index}
+              className="card bg-green-400 w-2/4 text-white shadow-sm"
+              aria-labelledby={`story-${index}-title`}
+            >
+              <div className="card-body">
+                <h2 id={`story-${index}-title`} className="card-title font-bold">
+                  {item.name}
+                </h2>
                 <p>{item.description}</p>
               </div>
-              <img src={item.photoUrl} className="w-full h-40" alt="" />
-               {item.lat && item.lon && <MapView lat={item.lat} lon={item.lon} name={item.name} />}
-            </div>
+              <img
+                src={item.photoUrl}
+                className="w-full h-40 object-cover"
+                alt={`Foto cerita oleh ${item.name}`}
+              />
+              {item.lat && item.lon && (
+                <MapView lat={item.lat} lon={item.lon} name={item.name} />
+              )}
+            </article>
           ))
-        : null}
-    </div>
+        ) : (
+          <p className="text-gray-600" role="status">Belum ada story.</p>
+        )}
+      </main>
+
+      <footer className="p-4 text-center text-sm text-gray-500" role="contentinfo">
+        © 2025 Story App
+      </footer>
+    </>
   );
 }
